@@ -12,16 +12,15 @@ public class inicio extends javax.swing.JPanel {
     private URL url = getClass().getResource("/media/ruins.jpg");
     private Image image = new ImageIcon(url).getImage();
     protected JFrame frame;
+    tablero tab;
+    
+    
     public inicio(JFrame frame) {
         this.frame = frame;
         initComponents();
         transparencia();
     }
-    public inicio(){
-        initComponents();
-        transparencia();
-    }
-
+   
     public void paint(Graphics g) {
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
         setOpaque(false);
@@ -115,8 +114,11 @@ public class inicio extends javax.swing.JPanel {
     }//GEN-LAST:event_btn2ActionPerformed
 
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
-        this.getTopLevelAncestor().add(new tablero(frame));
+        tab = new tablero(frame);
         this.setVisible(false);
+        this.getTopLevelAncestor().add(tab);
+        tab.revalidate();
+       
     }//GEN-LAST:event_btn1ActionPerformed
 
 

@@ -1,12 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package videojuego;
 
-import java.awt.*;
-import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.*;
 import java.awt.Dimension;
@@ -15,9 +8,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import static java.lang.System.err;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static jdk.nashorn.internal.objects.NativeDebug.getClass;
 
 /**
  *
@@ -35,8 +25,12 @@ public class tablero extends JPanel implements Runnable {
     protected JFrame frame;
 
     public tablero(JFrame frame) {
+          hilo = new Thread(this);
+        hilo.start();
         this.frame = frame;
         eventos();
+        
+     
     }
 
     @Override
@@ -55,42 +49,41 @@ public class tablero extends JPanel implements Runnable {
         g.drawImage(background.getImage(), 0, 0, tam.width, tam.height, null);
         g.drawImage(peleador.getImage(), x1, defaulty, (x1 + 100) + 50, 300 + 50, mx, my, mx + 50, my + 50, this);
         g.drawImage(peleador2.getImage(), x2, defaulty, (x2 + 90) + 110, 200 + 110, mx2, my2, mx2 + 110, my2 + 113, this);
-        hilo = new Thread(this);
 
         repaint();
-
-        hilo.start();
 
     }
 
     public void eventos() {
         System.out.println("eventos");
-       
-        frame.addKeyListener(new KeyListener() {
+        
+        frame.addKeyListener(new java.awt.event.KeyAdapter() {
 
             /* Detectar cuando se tipea una letra */
             @Override
-            public void keyTyped(KeyEvent ke) {}
-            
+            public void keyTyped(KeyEvent ke) {
+            }
+
             /* Detectar cuando se presiona una letra */
             @Override
             public void keyPressed(KeyEvent ke) {
-                
+
                 System.out.println("teclado");
-              
+
             }
 
             /* Detectar cuando se suelta una letra */
             @Override
             public void keyReleased(KeyEvent ke) {
-             
+
             }
-               
+
         });
         frame.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("algo");
+                
             }
 
             @Override
@@ -109,10 +102,9 @@ public class tablero extends JPanel implements Runnable {
             public void mouseExited(MouseEvent e) {
             }
         });
-
     }
 
-    public void eventos(KeyEvent ke) {
+    public void eventos2(KeyEvent ke) {
         System.out.println("evento");
         switch (ke.getKeyCode()) {
             case KeyEvent.VK_UP:
@@ -133,11 +125,11 @@ public class tablero extends JPanel implements Runnable {
     }
 
     public void run() {
-
+    frame.setFocusable(true);
         while (true) {
             try {
 
-                hilo.sleep(40);
+                Thread.sleep(40);
             } catch (InterruptedException ex) {
                 System.out.println(err);
             }
