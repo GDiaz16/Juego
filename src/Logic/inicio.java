@@ -4,13 +4,20 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import videojuego.tablero;
 
 public class inicio extends javax.swing.JPanel {
 
     private URL url = getClass().getResource("/media/ruins.jpg");
     private Image image = new ImageIcon(url).getImage();
-
-    public inicio() {
+    protected JFrame frame;
+    public inicio(JFrame frame) {
+        this.frame = frame;
+        initComponents();
+        transparencia();
+    }
+    public inicio(){
         initComponents();
         transparencia();
     }
@@ -32,6 +39,7 @@ public class inicio extends javax.swing.JPanel {
         btn3.setContentAreaFilled(false);
         btn3.setBorderPainted(false);
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -50,6 +58,11 @@ public class inicio extends javax.swing.JPanel {
         btn1.setBorderPainted(false);
         btn1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn1ActionPerformed(evt);
+            }
+        });
 
         btn2.setFont(new java.awt.Font("Source Sans Pro Semibold", 1, 14)); // NOI18N
         btn2.setForeground(new java.awt.Color(255, 255, 255));
@@ -97,8 +110,14 @@ public class inicio extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
-    
+        this.getTopLevelAncestor().add(new controles(this));
+        this.setVisible(false);
     }//GEN-LAST:event_btn2ActionPerformed
+
+    private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
+        this.getTopLevelAncestor().add(new tablero(frame));
+        this.setVisible(false);
+    }//GEN-LAST:event_btn1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
