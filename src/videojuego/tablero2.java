@@ -1,20 +1,17 @@
 package videojuego;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import javax.swing.*;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import static java.lang.System.err;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JProgressBar;
 
-/**
- *
- * @author user
- */
-public class tablero extends JPanel implements Runnable {
+public class tablero2 extends javax.swing.JPanel implements Runnable {
 
     private int x1 = 120; // x1 puesto que es donde se posicionara por defecto la imagen 1
     private int y1 = 250; // una sola y ,porque ambas imagenes permaneceran en un mismo eje y
@@ -35,47 +32,32 @@ public class tablero extends JPanel implements Runnable {
     int pressed = 0;
     int aux = 0;
     boolean jump = false;
-    JProgressBar life1;
-    JProgressBar life2;
+    int lifev1 = 100;
+    int lifev2 = 100;
 
-    public tablero(JFrame frame) {
+    public tablero2(JFrame frame) {
+        initComponents();
         hilo = new Thread(this);
         hilo.start();
         this.frame = frame;
-        this.setLayout(new GridLayout(10, 2));
         eventos();
         peleador1 = seleccionarJugador(1);
         peleador2 = seleccionarJugador(2);
-        life1 = new JProgressBar();
-        life2 = new JProgressBar();
-        life1.setForeground(Color.red);
-        //life1.setLocation(10, 30);
-        life1.setSize(160, 30);
 
-        //life2.setLocation(400, 90);
-        life2.setSize(160, 30);
-        add(life1);
-        add(life2);
-        life1.setValue(70);
-        //life2.setValue(50);
-        life1.setVisible(true);
-        life2.setVisible(true);
     }
 
     @Override
     public void paint(Graphics g) {
         Dimension tam = getSize();
-
+        life1.update(g);
+        life2.update(g);
         ImageIcon background = new ImageIcon(new ImageIcon(getClass().getResource("/media/escenary.png")).getImage());
 
         g.drawImage(background.getImage(), 0, 0, tam.width, tam.height, null);
         g.drawImage(peleador1.getImage(), x1, y1, (x1 + 100) + 50, y1 + 150, mx, my, mx + 50, my + 50, this);
         g.drawImage(peleador2.getImage(), x2, y2, (x2 + 90) + 110, 200 + 110, mx2, my2, mx2 + 110, my2 + 113, this);
-        life1.update(g);
-       /// life1.setLocation(x1, y1);
-        life2.update(g);
-        //g.drawImage
 
+        super.paint(g);
         repaint();
 
     }
@@ -260,8 +242,7 @@ public class tablero extends JPanel implements Runnable {
     }
 
     private void hit() {
-        //mx = 450;
-        //my = 250;
+
         if (mx == 0) {
             mx = 450;
             my = 250;
@@ -272,5 +253,58 @@ public class tablero extends JPanel implements Runnable {
         } else {
             mx = 0;
         }
+        life1.setValue(lifev1 -= 5);
     }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        life1 = new javax.swing.JProgressBar();
+        life2 = new javax.swing.JProgressBar();
+
+        setOpaque(false);
+
+        life1.setBackground(new java.awt.Color(204, 204, 204));
+        life1.setFont(new java.awt.Font("Showcard Gothic", 0, 14)); // NOI18N
+        life1.setForeground(new java.awt.Color(0, 204, 0));
+        life1.setValue(80);
+        life1.setOpaque(true);
+        life1.setString("Player");
+        life1.setStringPainted(true);
+
+        life2.setBackground(new java.awt.Color(204, 204, 204));
+        life2.setFont(new java.awt.Font("Showcard Gothic", 0, 14)); // NOI18N
+        life2.setForeground(new java.awt.Color(0, 204, 0));
+        life2.setValue(60);
+        life2.setOpaque(true);
+        life2.setString("CPU");
+        life2.setStringPainted(true);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(life1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(135, 135, 135)
+                .addComponent(life2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(life2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(life1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(405, 405, 405))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JProgressBar life1;
+    private javax.swing.JProgressBar life2;
+    // End of variables declaration//GEN-END:variables
 }

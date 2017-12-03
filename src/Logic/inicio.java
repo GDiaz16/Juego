@@ -5,14 +5,14 @@ import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import videojuego.tablero;
+import videojuego.tablero2;
 
 public class inicio extends javax.swing.JPanel {
 
     private URL url = getClass().getResource("/media/ruins.jpg");
     private Image image = new ImageIcon(url).getImage();
     protected JFrame frame;
-    tablero tab;
+    tablero2 tab;
     
     
     public inicio(JFrame frame) {
@@ -114,7 +114,7 @@ public class inicio extends javax.swing.JPanel {
     }//GEN-LAST:event_btn2ActionPerformed
 
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
-        tab = new tablero(frame);
+        tab = new tablero2(frame);
         this.setVisible(false);
         this.getTopLevelAncestor().add(tab);
         tab.revalidate();
