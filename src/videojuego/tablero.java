@@ -51,6 +51,7 @@ public class tablero extends JPanel implements Runnable {
         g.drawImage(peleador.getImage(), x1, defaulty, (x1 + 100) + 50, 300 + 50, mx, my, mx + 50, my + 50, this);
         g.drawImage(peleador2.getImage(), x2, defaulty, (x2 + 90) + 110, 200 + 110, mx2, my2, mx2 + 110, my2 + 113, this);
         hilo = new Thread(this);
+        
 
       
 
@@ -73,11 +74,11 @@ public class tablero extends JPanel implements Runnable {
             if (x1 >= 700) {
                 x1 = 120;
             }
-            incremento1++;
+            incremento1 = 3;
             if (incremento1 > 70) {
                 incremento1 = 0;
             }
-            incremento2++;
+            incremento2=3;
             if (incremento2 >54){
             incremento2 = 0;
             }

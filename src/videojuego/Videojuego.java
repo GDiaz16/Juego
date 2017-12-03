@@ -5,6 +5,7 @@
  */
 package videojuego;
 
+import Logic.inicio;
 import javax.swing.JFrame;
 
 /**
@@ -19,7 +20,7 @@ public class Videojuego extends JFrame {
         setSize(700, 450);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        add(new tablero());
+        add(new inicio());
         setVisible(true);
 
     }
