@@ -74,8 +74,8 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         g.drawImage(peleador1.getImage(), x1, y1, x1 + 150, y1 + 150, mx, my, mx + 50, my + 50, this);
         g.drawImage(peleador2.getImage(), ia.getX2(), ia.getY2() + 55, ia.getX2() + 100, ia.getY2() + 180,
                 ia.getMx2(), ia.getMy2(), ia.getMx2() + 110, ia.getMy2() + 113, this);
-       // g.drawRect((int) player1.getX(), (int) player1.getY(), (int) player1.width, (int) player1.height);
-       // g.drawRect((int) player2.getX(), (int) player2.getY(), (int) player2.width, (int) player2.height);
+        // g.drawRect((int) player1.getX(), (int) player1.getY(), (int) player1.width, (int) player1.height);
+        // g.drawRect((int) player2.getX(), (int) player2.getY(), (int) player2.width, (int) player2.height);
         super.paint(g);
         repaint();
 
@@ -272,6 +272,7 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         ia.setY1(y1);
         ia.update();
         life1.setValue(ia.getlifev1());
+        lifev1 = ia.getlifev1();
 
     }
 
@@ -397,21 +398,31 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         }
 
     }
-    public void winner(){
-        if(lifev1 == 0){
-             jLabel1.setVisible(false);
-        jButton1.setVisible(false);
-        jButton2.setVisible(false);
-        }else if(lifev2 == 0){
-             jLabel1.setVisible(false);
-        jButton1.setVisible(false);
-        jButton2.setVisible(false);
-        }else if(lifev1 == 0&&lifev2 == 0){
-             jLabel1.setVisible(false);
-        jButton1.setVisible(false);
-        jButton2.setVisible(false);
+
+    public void winner() {
+        System.out.println("life 1 " + lifev1);
+        System.out.println("life 2 " + lifev2);
+        if (lifev1 <= 0) {
+            jLabel1.setVisible(true);
+            jLabel1.setText("JUGADOR 2 GANA");
+            jButton1.setVisible(true);
+            jButton2.setVisible(true);
+            hilo.suspend();
+        } else if (lifev2 <= 0) {
+            jLabel1.setVisible(true);
+            jLabel1.setText("JUGADOR 1 GANA");
+            jButton1.setVisible(true);
+            jButton2.setVisible(true);
+            hilo.suspend();
+        } else if (lifev1 <= 0 && lifev2 <= 0) {
+            jLabel1.setVisible(true);
+            jLabel1.setText("EMPATE");
+            jButton1.setVisible(true);
+            jButton2.setVisible(true);
+            hilo.suspend();
         }
     }
+
     public void run() {
         frame.setFocusable(true);
         System.out.println("press " + pressed);
@@ -420,6 +431,7 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
             System.out.println("run...");
             movimientos();
             update();
+            winner();
             //ia.run();
             try {
                 Thread.sleep(50);
@@ -460,6 +472,7 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         life2.setStringPainted(true);
 
         jLabel1.setFont(new java.awt.Font("Showcard Gothic", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 0));
         jLabel1.setText("JUGADOR 1 GANA");
 
         jButton1.setFont(new java.awt.Font("Showcard Gothic", 0, 12)); // NOI18N
@@ -522,6 +535,7 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
             this.getTopLevelAncestor().add(tab);
             this.getTopLevelAncestor().remove(2);
             tab.revalidate();
+            hilo.resume();
         } catch (ArrayIndexOutOfBoundsException ex) {
 
         }
@@ -529,7 +543,7 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       this.setVisible(false);
+        this.setVisible(false);
         this.getTopLevelAncestor().add(new inicio(frame));
     }//GEN-LAST:event_jButton2ActionPerformed
 

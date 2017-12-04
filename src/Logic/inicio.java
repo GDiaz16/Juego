@@ -81,6 +81,11 @@ public class inicio extends javax.swing.JPanel {
         btn3.setText("Salir");
         btn3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -120,6 +125,10 @@ public class inicio extends javax.swing.JPanel {
         tab.revalidate();
        
     }//GEN-LAST:event_btn1ActionPerformed
+
+    private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btn3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
