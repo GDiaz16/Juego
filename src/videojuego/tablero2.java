@@ -55,7 +55,7 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
 
         g.drawImage(background.getImage(), 0, 0, tam.width, tam.height, null);
         g.drawImage(peleador1.getImage(), x1, y1, (x1 + 100) + 50, y1 + 150, mx, my, mx + 50, my + 50, this);
-        g.drawImage(peleador2.getImage(), x2, y2, (x2 + 90) + 110, 200 + 110, mx2, my2, mx2 + 110, my2 + 113, this);
+        g.drawImage(peleador2.getImage(), x2, y2, (x2 + 100) + 50, y2 + 130, mx2, my2, mx2 + 110, my2 + 113, this);
 
         super.paint(g);
         repaint();
@@ -131,6 +131,13 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
             case KeyEvent.VK_S:
                 pressed = 4;
                 break;
+            case KeyEvent.VK_X:
+                pressed = 5;
+                System.out.println("golpe1");
+                break;
+            case KeyEvent.VK_Z:
+                pressed = 6;
+                break;
             default:
                 pressed = 0;
                 break;
@@ -163,9 +170,17 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
             case 4:
                 hit();
                 break;
+            case 5:
+                golpe();
+                System.out.println("golpe");
+                break;
+            case 6:
+                patada();
+                System.out.println("golpe");
+                break;
             default:
                 moveSTOP();
-                System.out.println("stop");
+                //System.out.println("stop");
                 break;
         }
     }
@@ -254,6 +269,35 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
             mx = 0;
         }
         life1.setValue(lifev1 -= 5);
+    }
+
+    private void golpe() {
+        if (mx == 0) {
+            mx = 200;
+            my = 150;
+        }
+        if (aux < 2) {
+            x1 += 20;
+            aux += 1;
+        } else {
+            mx = 0;
+            my = 0;
+        }
+    }
+
+    private void patada() {
+        if (mx == 0) {
+            mx = 250;
+            my = 200;
+        }
+        if (aux < 4) {
+            x1 += 20;
+            aux += 1;
+        } else {
+            mx = 0;
+            my = 0;
+        }
+
     }
 
     @SuppressWarnings("unchecked")

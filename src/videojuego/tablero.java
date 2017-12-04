@@ -72,7 +72,7 @@ public class tablero extends JPanel implements Runnable {
         g.drawImage(peleador1.getImage(), x1, y1, (x1 + 100) + 50, y1 + 150, mx, my, mx + 50, my + 50, this);
         g.drawImage(peleador2.getImage(), x2, y2, (x2 + 90) + 110, 200 + 110, mx2, my2, mx2 + 110, my2 + 113, this);
         life1.update(g);
-       /// life1.setLocation(x1, y1);
+        /// life1.setLocation(x1, y1);
         life2.update(g);
         //g.drawImage
 
@@ -116,7 +116,7 @@ public class tablero extends JPanel implements Runnable {
 
                 eventos(ke);
 
-                System.out.println("teclado");
+               // System.out.println("teclado");
 
             }
 
@@ -148,6 +148,10 @@ public class tablero extends JPanel implements Runnable {
                 break;
             case KeyEvent.VK_S:
                 pressed = 4;
+                break;
+            case KeyEvent.VK_X:
+                pressed = 5;
+                System.out.println("golpe1");
                 break;
             default:
                 pressed = 0;
@@ -181,9 +185,13 @@ public class tablero extends JPanel implements Runnable {
             case 4:
                 hit();
                 break;
+            case 5:
+                golpe();
+                System.out.println("golpe");
+                break;
             default:
                 moveSTOP();
-                System.out.println("stop");
+                System.out.println("stop error");
                 break;
         }
     }
@@ -260,8 +268,7 @@ public class tablero extends JPanel implements Runnable {
     }
 
     private void hit() {
-        //mx = 450;
-        //my = 250;
+
         if (mx == 0) {
             mx = 450;
             my = 250;
@@ -273,4 +280,18 @@ public class tablero extends JPanel implements Runnable {
             mx = 0;
         }
     }
+
+    private void golpe() {
+        if (mx == 0) {
+            mx = 200;
+            my = 150;
+        }
+        if (aux < 3) {
+            x1 += 20;
+            aux += 1;
+        } else {
+            mx = 0;
+        }
+    }
+
 }
