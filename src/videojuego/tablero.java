@@ -2,21 +2,17 @@ package videojuego;
 
 import Logic.inicio;
 import Logic.player2;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import static java.lang.System.err;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JProgressBar;
 
-public class tablero2 extends javax.swing.JPanel implements Runnable {
+public class tablero extends javax.swing.JPanel implements Runnable {
 
-    tablero2 tab;
+    tablero tab;
     private int x1 = 120; // x1 puesto que es donde se posicionara por defecto la imagen 1
     private int y1 = 250; // una sola y ,porque ambas imagenes permaneceran en un mismo eje y
     private int y2 = 180;
@@ -40,16 +36,16 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
     int lifev2 = 100;
     Rectangle player1;
     Rectangle player2;
-    private player2 ia;
+    private player2 jugador2;
 
-    public tablero2(JFrame frame) {
+    public tablero(JFrame frame) {
         initComponents();
         jLabel1.setVisible(false);
         jButton1.setVisible(false);
         jButton2.setVisible(false);
         player1 = new Rectangle(x1 + 25, y1 + 35, 90, 70);
         player2 = new Rectangle(x2 + 25, y2 + 40, 70, 250);
-        ia = new player2(x1, y1, x2, y2, player1, player2);
+        jugador2 = new player2(x1, y1, x2, y2, player1, player2);
         //update();
         hilo = new Thread(this);
         this.frame = frame;
@@ -65,15 +61,15 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         life1.update(g);
         life2.update(g);
         ImageIcon background = new ImageIcon(new ImageIcon(getClass().getResource("/media/escenary.png")).getImage());
-        if (ia.isState()) {
+        if (jugador2.isState()) {
             peleador2 = seleccionarJugador(3);
         } else {
             peleador2 = seleccionarJugador(2);
         }
         g.drawImage(background.getImage(), 0, 0, tam.width, tam.height, null);
         g.drawImage(peleador1.getImage(), x1, y1, x1 + 150, y1 + 150, mx, my, mx + 50, my + 50, this);
-        g.drawImage(peleador2.getImage(), ia.getX2(), ia.getY2() + 55, ia.getX2() + 100, ia.getY2() + 180,
-                ia.getMx2(), ia.getMy2(), ia.getMx2() + 110, ia.getMy2() + 113, this);
+        g.drawImage(peleador2.getImage(), jugador2.getX2(), jugador2.getY2() + 55, jugador2.getX2() + 100, jugador2.getY2() + 180,
+                jugador2.getMx2(), jugador2.getMy2(), jugador2.getMx2() + 110, jugador2.getMy2() + 113, this);
         // g.drawRect((int) player1.getX(), (int) player1.getY(), (int) player1.width, (int) player1.height);
         // g.drawRect((int) player2.getX(), (int) player2.getY(), (int) player2.width, (int) player2.height);
         super.paint(g);
@@ -106,7 +102,6 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
     }
 
     public void eventos() {
-        System.out.println("eventos");
 
         frame.addKeyListener(new java.awt.event.KeyAdapter() {
 
@@ -129,8 +124,7 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
                 eventos(ke);
                 pressed = 0;
                 pressed2 = 0;
-                // moveSTOP();
-                //ia.moveSTOP();
+
             }
 
         });
@@ -199,11 +193,11 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
                 }
                 break;
             case 2:
-                if (ia.jump && ia.getY2() > 70) {
-                    ia.moveUP();
-                } else if (ia.getY2() < 70 || ia.getY2() < defaulty - 80) {
-                    ia.setJump(false);
-                    ia.moveDOWN();
+                if (jugador2.jump && jugador2.getY2() > 70) {
+                    jugador2.moveUP();
+                } else if (jugador2.getY2() < 70 || jugador2.getY2() < defaulty - 80) {
+                    jugador2.setJump(false);
+                    jugador2.moveDOWN();
                 }
                 break;
         }
@@ -214,16 +208,13 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         switch (pressed) {
             case 1:
                 jump = true;
-                // ia.accion(1, 3);
                 break;
             case 2:
                 moveLEFT(true);
-                //ia.accion(1, 1);
                 break;
 
             case 3:
                 moveRIGHT();
-                //ia.accion(1, 2);
                 break;
             case 4:
                 hit();
@@ -241,38 +232,38 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         saltar(2);
         switch (pressed2) {
             case 7:
-                ia.setJump(true);
+                jugador2.setJump(true);
 
                 break;
             case 8:
-                ia.moveLEFT();
+                jugador2.moveLEFT();
                 break;
             case 9:
-                ia.moveRIGHT(false);
+                jugador2.moveRIGHT(false);
                 break;
             case 10:
-                ia.hit();
+                jugador2.hit();
                 break;
             case 11:
-                ia.golpe();
+                jugador2.golpe();
                 break;
             case 12:
-                ia.patada();
+                jugador2.patada();
                 break;
             default:
-                ia.moveSTOP();
+                jugador2.moveSTOP();
                 break;
         }
     }
 
     public void update() {
         player1 = new Rectangle(x1 + 25, y1 + 35, 70, 90);
-        player2 = new Rectangle(ia.getX2() + 20, ia.getY2() + 40, 70, 140);
-        ia.setX1(x1);
-        ia.setY1(y1);
-        ia.update();
-        life1.setValue(ia.getlifev1());
-        lifev1 = ia.getlifev1();
+        player2 = new Rectangle(jugador2.getX2() + 20, jugador2.getY2() + 40, 70, 140);
+        jugador2.setX1(x1);
+        jugador2.setY1(y1);
+        jugador2.update();
+        life1.setValue(jugador2.getlifev1());
+        lifev1 = jugador2.getlifev1();
 
     }
 
@@ -292,7 +283,7 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
             mx = 100;
             my = 200;
         }
-        //ia.moveRIGHT(false);
+
     }
 
     private void moveRIGHT() {
@@ -354,7 +345,6 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
 
         if (player1.intersects(player2)) {
             life2.setValue(lifev2 -= 3);
-            System.out.println("toque");
             moveLEFT(false);
         }
 
@@ -373,7 +363,6 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
             my = 0;
         }
         if (player1.intersects(player2)) {
-            System.out.println("golpe");
             life2.setValue(lifev2 -= 1);
             moveLEFT(false);
         }
@@ -392,7 +381,6 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
             my = 0;
         }
         if (player1.intersects(player2)) {
-            System.out.println("patada");
             life2.setValue(lifev2 -= 1);
             moveLEFT(false);
         }
@@ -400,8 +388,6 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
     }
 
     public void winner() {
-        System.out.println("life 1 " + lifev1);
-        System.out.println("life 2 " + lifev2);
         if (lifev1 <= 0) {
             jLabel1.setVisible(true);
             jLabel1.setText("JUGADOR 2 GANA");
@@ -425,14 +411,12 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
 
     public void run() {
         frame.setFocusable(true);
-        System.out.println("press " + pressed);
 
         while (true) {
-            System.out.println("run...");
             movimientos();
             update();
             winner();
-            //ia.run();
+
             try {
                 Thread.sleep(50);
             } catch (InterruptedException ex) {
@@ -529,7 +513,7 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        tab = new tablero2(frame);
+        tab = new tablero(frame);
         try {
             this.setVisible(false);
             this.getTopLevelAncestor().add(tab);

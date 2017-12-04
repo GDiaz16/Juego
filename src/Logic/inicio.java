@@ -5,22 +5,21 @@ import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import videojuego.tablero2;
+import videojuego.tablero;
 
 public class inicio extends javax.swing.JPanel {
 
     private URL url = getClass().getResource("/media/ruins.jpg");
     private Image image = new ImageIcon(url).getImage();
     protected JFrame frame;
-    tablero2 tab;
-    
-    
+    tablero tab;
+
     public inicio(JFrame frame) {
         this.frame = frame;
         initComponents();
         transparencia();
     }
-   
+
     public void paint(Graphics g) {
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
         setOpaque(false);
@@ -119,11 +118,11 @@ public class inicio extends javax.swing.JPanel {
     }//GEN-LAST:event_btn2ActionPerformed
 
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
-        tab = new tablero2(frame);
+        tab = new tablero(frame);
         this.setVisible(false);
         this.getTopLevelAncestor().add(tab);
         tab.revalidate();
-       
+
     }//GEN-LAST:event_btn1ActionPerformed
 
     private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed

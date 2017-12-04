@@ -1,7 +1,6 @@
 package Logic;
 
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 
 public class player2 {
 
@@ -10,11 +9,7 @@ public class player2 {
     private int x2;
     private int y2;
     private int defaulty = 160;
-    //int incremento1 = 0;
-    //int incremento2 = 0;
     boolean state;
-    boolean isLand;
-
     int mx2 = 0;
     int my2 = 0;
     int cx = 110;
@@ -50,7 +45,7 @@ public class player2 {
 
     public void update() {
         player1 = new Rectangle(x1 + 25, y1 + 35, 70, 100);
-        player2 = new Rectangle(x2+ 20, y2 + 40, 70, 140);
+        player2 = new Rectangle(x2 + 20, y2 + 40, 70, 140);
     }
 
     public int getX2() {
@@ -113,13 +108,10 @@ public class player2 {
         }
         if (player2.intersects(player1) || x2 < -20) {
             moveRIGHT(true);
-            System.out.println("p1 = p2");
         }
     }
 
     public void moveRIGHT(boolean x) {
-        //x2 += 10;
-        System.out.println("right " + x2);
         if (x2 < 600) {
             x2 += 20;
         } else {
@@ -130,12 +122,9 @@ public class player2 {
             mx2 = cx * 3;
             my2 = cy * 0;
         }
-//        else if  (!x){
-//            mx2 = cx * 3;
-//            my2 = cy * 3;
-//        }
+
         state = false;
-        
+
     }
 
     public void moveSTOP() {
@@ -172,7 +161,6 @@ public class player2 {
 
         if (player2.intersects(player1)) {
             lifev1 -= 3;
-            System.out.println("toque");
             moveRIGHT(false);
         }
 
@@ -191,7 +179,6 @@ public class player2 {
             my2 = 0;
         }
         if (player2.intersects(player1)) {
-            System.out.println("golpe");
             lifev1 -= 1;
             moveRIGHT(false);
         }
@@ -199,11 +186,8 @@ public class player2 {
 
     public void patada() {
         state = false;
-        mx2 = cx * 5 +20;
+        mx2 = cx * 5 + 20;
         my2 = cy * 0;
-//        if (mx2 == 0) {
-//            
-//        }
         if (aux < 4) {
             x2 -= 20;
             aux += 1;
@@ -212,7 +196,6 @@ public class player2 {
             my2 = 0;
         }
         if (player2.intersects(player1)) {
-            System.out.println("patada");
             lifev1 -= 1;
             moveRIGHT(false);
         }

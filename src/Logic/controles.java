@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Logic;
 
 import java.awt.Graphics;
@@ -10,15 +5,12 @@ import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author FAMILIA
- */
 public class controles extends javax.swing.JPanel {
 
     private URL url = getClass().getResource("/media/ruins.jpg");
     private Image image = new ImageIcon(url).getImage();
     inicio init;
+
     public controles(inicio init) {
         initComponents();
         this.init = init;
