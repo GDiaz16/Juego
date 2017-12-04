@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import static java.lang.System.err;
 import javax.swing.ImageIcon;
@@ -34,6 +35,8 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
     boolean jump = false;
     int lifev1 = 100;
     int lifev2 = 100;
+    Rectangle player1;
+    Rectangle player2;
 
     public tablero2(JFrame frame) {
         initComponents();
@@ -54,9 +57,10 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         ImageIcon background = new ImageIcon(new ImageIcon(getClass().getResource("/media/escenary.png")).getImage());
 
         g.drawImage(background.getImage(), 0, 0, tam.width, tam.height, null);
-        g.drawImage(peleador1.getImage(), x1, y1, (x1 + 100) + 50, y1 + 150, mx, my, mx + 50, my + 50, this);
-        g.drawImage(peleador2.getImage(), x2, y2, (x2 + 100) + 50, y2 + 130, mx2, my2, mx2 + 110, my2 + 113, this);
-
+        g.drawImage(peleador1.getImage(), x1, y1, x1 + 150, y1 + 150, mx, my, mx + 50, my + 50, this);
+        g.drawImage(peleador2.getImage(), x2, y2, x2 + 150, y2 + 130, mx2, my2, mx2 + 110, my2 + 113, this);
+        g.drawRect((int) player1.getX(), (int) player1.getY(), (int) player1.width, (int) player1.height);
+        g.drawRect((int) player2.getX(), (int) player2.getY(), (int) player2.width, (int) player2.height);
         super.paint(g);
         repaint();
 
@@ -98,8 +102,7 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
 
                 eventos(ke);
 
-                System.out.println("teclado");
-
+                //  System.out.println("teclado");
             }
 
             /* Detectar cuando se suelta una letra */
@@ -115,17 +118,17 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
     }
 
     public void eventos(KeyEvent ke) {
-        System.out.println("evento");
+        //   System.out.println("evento");
         switch (ke.getKeyCode()) {
             case KeyEvent.VK_UP:
                 pressed = 1;
                 break;
             case KeyEvent.VK_LEFT:
-                System.out.println("left");
+                //   System.out.println("left");
                 pressed = 2;
                 break;
             case KeyEvent.VK_RIGHT:
-                System.out.println("right");
+                //   System.out.println("right");
                 pressed = 3;
                 break;
             case KeyEvent.VK_S:
@@ -133,7 +136,7 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
                 break;
             case KeyEvent.VK_X:
                 pressed = 5;
-                System.out.println("golpe1");
+                // System.out.println("golpe1");
                 break;
             case KeyEvent.VK_Z:
                 pressed = 6;
@@ -156,27 +159,27 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         switch (pressed) {
             case 1:
                 jump = true;
-                System.out.println("up");
+                // System.out.println("up");
                 break;
             case 2:
-                moveLEFT();
-                System.out.println("left");
+                moveLEFT(true);
+                // System.out.println("left");
                 break;
 
             case 3:
                 moveRIGHT();
-                System.out.println("right");
+                // System.out.println("right");
                 break;
             case 4:
                 hit();
                 break;
             case 5:
                 golpe();
-                System.out.println("golpe");
+                //  System.out.println("golpe");
                 break;
             case 6:
                 patada();
-                System.out.println("golpe");
+                // System.out.println("golpe");
                 break;
             default:
                 moveSTOP();
@@ -191,6 +194,7 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
 
         while (true) {
             movimientos();
+            update();
             try {
 
                 Thread.sleep(50);
@@ -201,20 +205,26 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         }
     }
 
+    public void update() {
+        player1 = new Rectangle(x1 + 25, y1 + 35, 70, 100);
+        player2 = new Rectangle(x2 + 50, y2 + 30, 70, 100);
+    }
+
     private void moveUP() {
         y1 -= 20;
         mx = 300;
     }
 
-    private void moveLEFT() {
+    private void moveLEFT(boolean x) {
         if (x1 > -30) {
             x1 -= 20;
         } else {
             x1 = -20;
         }
+        if(x){
         mx = 100;
         my = 200;
-
+        }
     }
 
     private void moveRIGHT() {
@@ -233,6 +243,9 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         } else {
             mx = 350;
 
+        }
+        if (player1.intersects(player2)) {
+            moveLEFT(false);
         }
 
     }
@@ -268,7 +281,13 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         } else {
             mx = 0;
         }
-        life1.setValue(lifev1 -= 5);
+
+        if (player1.intersects(player2)) {
+            life2.setValue(lifev2 -= 3);
+            System.out.println("toque");
+            moveLEFT(false);
+        }
+
     }
 
     private void golpe() {
@@ -283,6 +302,11 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
             mx = 0;
             my = 0;
         }
+        if (player1.intersects(player2)) {
+            System.out.println("golpe");
+            life2.setValue(lifev2 -= 1);
+            moveLEFT(false);
+        }
     }
 
     private void patada() {
@@ -296,6 +320,11 @@ public class tablero2 extends javax.swing.JPanel implements Runnable {
         } else {
             mx = 0;
             my = 0;
+        }
+        if (player1.intersects(player2)) {
+            System.out.println("patada");
+            life2.setValue(lifev2 -= 1);
+            moveLEFT(false);
         }
 
     }
